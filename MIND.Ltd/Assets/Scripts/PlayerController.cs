@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour {
     GameObject player,
         player_Torso,
         player_Legs;
+    [SerializeField]
+    Camera camera;
     
 	// Use this for initialization
 	void Start () {
@@ -27,16 +29,18 @@ public class PlayerController : MonoBehaviour {
         player.transform.position = new Vector3(player.transform.position.x,
             player.transform.position.y, player.transform.position.z + vertical_Move_Speed*Input.GetAxis("Vertical"));
 
-
         //print(getRotation(player.transform.position, new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))));
         player_Torso.transform.rotation = new Quaternion(player_Torso.transform.rotation.x,
             player_Torso.transform.rotation.y,
             player_Torso.transform.rotation.z + getRotation(player.transform.position, new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))),
             player_Torso.transform.rotation.w);
 
+        print(Input.mousePosition);
+
         var rotationVector = player_Legs.transform.rotation.eulerAngles;
-        rotationVector.z = getRotation(player.transform.localPosition, new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+        rotationVector.z = getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition);
         player_Torso.transform.rotation = Quaternion.Euler(rotationVector);
+        Debug.Log(rotationVector.z);
         if (Input.GetButtonDown("Jump"))
         {
             player.GetComponent<Rigidbody>().AddForce(new Vector3(0, jump_Height, 0));
