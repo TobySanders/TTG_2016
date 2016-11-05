@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour {
     Camera camera;
     [SerializeField]
     GameObject bulletPrefab;
-    
+
+    private int jumpCount = 0;
 	// Use this for initialization
 	void Start () {
         player = transform.gameObject; //Get reference of the object using this controller
@@ -47,7 +48,14 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Jump"))
         {
-            player.GetComponent<Rigidbody>().AddForce(new Vector3(0, jump_Height, 0));
+            if (player.transform.position.y <= 0)
+                jumpCount = 0;
+            if (jumpCount < 2)
+            {
+                player.GetComponent<Rigidbody>().AddForce(new Vector3(0, jump_Height, 0));
+                jumpCount++;
+            }
+
         }
 
         if (Input.GetMouseButtonDown(0))
