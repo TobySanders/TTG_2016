@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BulletBehaviour.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\EnemyTrigger.cs" />
     <Compile Include="Assets\Scripts\FloorBehaviour.cs" />
     <Compile Include="Assets\Scripts\OwlBearBehaviour.cs" />
     <Compile Include="Assets\Scripts\PlayerAmmo.cs" />
