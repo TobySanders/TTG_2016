@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class PlayerController : MonoBehaviour {
 
     [SerializeField]
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour {
         player_Legs;
     [SerializeField]
     Camera camera;
+    [SerializeField]
+    GameObject bulletPrefab;
     
 	// Use this for initialization
 	void Start () {
@@ -37,15 +40,23 @@ public class PlayerController : MonoBehaviour {
 
         print(Input.mousePosition);
 
-        var rotationVector = player_Legs.transform.rotation.eulerAngles;
+        var rotationVector = player_Torso.transform.rotation.eulerAngles;
+        var cloneVector = rotationVector;
         rotationVector.z = getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition);
         player_Torso.transform.rotation = Quaternion.Euler(rotationVector);
-        Debug.Log(rotationVector.z);
+
         if (Input.GetButtonDown("Jump"))
         {
             player.GetComponent<Rigidbody>().AddForce(new Vector3(0, jump_Height, 0));
         }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject bullet = Instantiate(bulletPrefab, player.transform.position, Quaternion.Euler(rotationVector)) as GameObject;
+            BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+            cloneVector.z =  getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition);
+            b.rotation =  Quaternion.Euler(cloneVector);
+        }
         
     }
 
@@ -54,6 +65,11 @@ public class PlayerController : MonoBehaviour {
         Vector2 playerToMouse = mousePosition - playerPosition;
         float angleRads = Mathf.Atan2(playerToMouse.y, playerToMouse.x);
         float angleDeg = angleRads * (180 / Mathf.PI);
+
+        if (angleDeg >= 60)
+            return 60;
+        if (angleDeg <= -40)
+            return -40;
         return angleDeg;
     }
 }
