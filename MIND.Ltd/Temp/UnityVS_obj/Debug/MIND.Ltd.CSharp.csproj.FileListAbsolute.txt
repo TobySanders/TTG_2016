@@ -8,6 +8,5 @@ F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_bin\Debug\UnityEngine.xml
 F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
 F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
 F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_bin\Debug\UnityEditor.xml
-F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_obj\Debug\MIND.Ltd.CSharp.csprojResolveAssemblyReference.cache
 F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_obj\Debug\Assembly-CSharp.dll
 F:\TTG_2016\TTG_2016\MIND.Ltd\Temp\UnityVS_obj\Debug\Assembly-CSharp.pdb
