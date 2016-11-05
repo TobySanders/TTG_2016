@@ -252,6 +252,8 @@ public class PlayerController : MonoBehaviour {
                 health--;
                 healthText.text = health.ToString();
                 break;
+            case "Boss":
+
             default:
                 return;
         }
