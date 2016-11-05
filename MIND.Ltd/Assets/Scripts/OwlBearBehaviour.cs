@@ -11,7 +11,8 @@ public class OwlBearBehaviour : MonoBehaviour {
         Cooldown
     }
 
-
+    [SerializeField]
+    GameObject Quad;
     [SerializeField]
     GameObject player;
     [SerializeField]
@@ -61,6 +62,10 @@ public class OwlBearBehaviour : MonoBehaviour {
                 if(distanceCharged >= chargeDistance)
                 {
                     bearState = BearState.Cooldown;
+
+                    Vector3 scale = Quad.transform.localScale;
+                    float newX = scale.x * -1;
+                    Quad.transform.localScale = new Vector3(newX, scale.y, scale.z);
                     bearIsOnRight = !bearIsOnRight;
                     timer = cooldownTime;
                     distanceCharged = 0;
