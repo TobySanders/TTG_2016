@@ -31,8 +31,11 @@ public class EnemyTrigger : MonoBehaviour {
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
             transform.localScale = theScale;
-        } else {
-
+        } else if (playerX > transform.position.x && facingLeft) {
+            facingLeft = !facingLeft;
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
         }
         if (Vector3.Distance(transform.position, player.transform.position) > attackDistance) {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
