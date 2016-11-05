@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour {
     {
         player.transform.position = new Vector3(player.transform.position.x + horizontal_Move_Speed * Input.GetAxis("Horizontal"),
             player.transform.position.y, player.transform.position.z);
+
+        if(player.transform.position.z + vertical_Move_Speed*Input.GetAxis("Vertical") < 1.09 && player.transform.position.z + vertical_Move_Speed * Input.GetAxis("Vertical") > -5.89)
         player.transform.position = new Vector3(player.transform.position.x,
             player.transform.position.y, player.transform.position.z + vertical_Move_Speed*Input.GetAxis("Vertical"));
 
@@ -48,8 +50,6 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (player.transform.position.y <= 0)
-                jumpCount = 0;
             if (jumpCount < 2)
             {
                 player.GetComponent<Rigidbody>().AddForce(new Vector3(0, jump_Height, 0));
@@ -60,12 +60,50 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject bullet = Instantiate(bulletPrefab, player.transform.position, Quaternion.Euler(rotationVector)) as GameObject;
+
+            Vector3 gunHeight = player.transform.position;
+            gunHeight.x += 0.7f;
+            gunHeight.y += 0.45f;
+
+            var bulletVector = cloneVector;
+            var bullet1Vector = cloneVector;
+            var bullet2Vector = cloneVector;
+            var bullet3Vector = cloneVector;
+            var bullet4Vector = cloneVector;
+
+            GameObject bullet = Instantiate(bulletPrefab, gunHeight, Quaternion.Euler(rotationVector)) as GameObject;
+            GameObject bullet1 = Instantiate(bulletPrefab, gunHeight, Quaternion.Euler(rotationVector)) as GameObject;
+            GameObject bullet2 = Instantiate(bulletPrefab, gunHeight, Quaternion.Euler(rotationVector)) as GameObject;
+            GameObject bullet3 = Instantiate(bulletPrefab, gunHeight, Quaternion.Euler(rotationVector)) as GameObject;
+            GameObject bullet4 = Instantiate(bulletPrefab, gunHeight, Quaternion.Euler(rotationVector)) as GameObject;
+
             BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-            cloneVector.z =  getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition);
-            b.rotation =  Quaternion.Euler(cloneVector);
+            BulletBehaviour b1 = bullet1.GetComponent<BulletBehaviour>();
+            BulletBehaviour b2 = bullet2.GetComponent<BulletBehaviour>();
+            BulletBehaviour b3 = bullet3.GetComponent<BulletBehaviour>();
+            BulletBehaviour b4 = bullet4.GetComponent<BulletBehaviour>();
+
+            bulletVector.z =  getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition);
+            bullet1Vector.z = getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition) + 5;
+            bullet2Vector.z = getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition) + 10;
+            bullet3Vector.z = getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition) - 5;
+            bullet4Vector.z = getRotation(camera.WorldToScreenPoint(player_Torso.transform.position), Input.mousePosition) - 10;
+
+            b.rotation =  Quaternion.Euler(bulletVector);
+            b1.rotation = Quaternion.Euler(bullet1Vector);
+            b2.rotation = Quaternion.Euler(bullet2Vector);
+            b3.rotation = Quaternion.Euler(bullet3Vector);
+            b4.rotation = Quaternion.Euler(bullet4Vector);
         }
         
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name == "Floor")
+        {
+            jumpCount = 0;
+        }
     }
 
     private float getRotation(Vector2 playerPosition, Vector2 mousePosition)
